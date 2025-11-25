@@ -20,7 +20,7 @@ const NavLink: React.FC<NavLinkProps> = ({ href, className, onClick, children, .
   };
 
   return (
-    <a href={href} onClick={handleClick} className={className} {...props}>
+    <a href={href} onClick={handleClick} className={`${className} transform hover:-translate-y-0.5 transition-transform duration-300`} {...props}>
       {children}
     </a>
   );
