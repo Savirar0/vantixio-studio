@@ -1,7 +1,16 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { SERVICES_DATA } from '../constants';
+import { animateServices } from '../animations';
 
 const ServicesSection: React.FC = () => {
+    const servicesRef = useRef<HTMLDivElement[]>([]);
+
+    useEffect(() => {
+        servicesRef.current.forEach((service) => {
+            animateServices(service);
+        });
+    }, []);
+
   return (
     <section className="py-20 lg:py-32">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -13,7 +22,7 @@ const ServicesSection: React.FC = () => {
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {SERVICES_DATA.map((service, index) => (
-            <div key={index} className="bg-white dark:bg-[#1E1E1E] p-8 rounded-xl border border-gray-200 dark:border-white/10 group hover:border-[#3B82F6] transition-all duration-300 transform hover:-translate-y-1">
+            <div key={index} ref={(el) => (servicesRef.current[index] = el!)} className="bg-white dark:bg-[#1E1E1E] p-8 rounded-xl border border-gray-200 dark:border-white/10 group hover:border-[#3B82F6] transition-all duration-300 transform hover:-translate-y-1">
               <div className="mb-6 inline-block bg-gray-100 dark:bg-white/5 p-4 rounded-lg group-hover:bg-[#3B82F6]/10 transition-colors duration-300">
                 {/* FIX: Cast service.icon to allow passing className prop. */}
                 {React.cloneElement(service.icon as React.ReactElement<{className?: string}>, {

@@ -1,8 +1,10 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { PROJECTS_DATA } from '../constants';
+import { animatePortfolio } from '../animations';
 
 const PortfolioSection: React.FC = () => {
   const [activeCategory, setActiveCategory] = useState('All');
+  const portfolioRef = useRef<HTMLDivElement[]>([]);
 
   const categories = useMemo(() => {
     const uniqueCategories = new Set(PROJECTS_DATA.map(p => p.category));
@@ -15,6 +17,12 @@ const PortfolioSection: React.FC = () => {
     }
     return PROJECTS_DATA.filter(project => project.category === activeCategory);
   }, [activeCategory]);
+
+  useEffect(() => {
+    portfolioRef.current.forEach((project) => {
+        animatePortfolio(project);
+    });
+    }, [filteredProjects]);
 
   return (
     <section className="py-20 lg:py-32 bg-gray-50 dark:bg-[#1E1E1E]">
@@ -48,6 +56,7 @@ const PortfolioSection: React.FC = () => {
           {filteredProjects.map((project, index) => (
             <div
               key={project.title + index}
+              ref={(el) => (portfolioRef.current[index] = el!)}
               className="group relative overflow-hidden rounded-xl border border-gray-200 dark:border-white/10 project-card"
             >
               <img src={project.imageUrl} alt={project.title} className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-500" />

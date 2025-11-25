@@ -1,12 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { NAV_LINKS } from '../constants';
 import ThemeToggleButton from './ThemeToggleButton';
 import Logo from './Logo';
 import NavLink from './NavLink';
+import { animateHeader } from '../animations';
 
 const Header: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const headerRef = useRef(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -17,12 +19,18 @@ const Header: React.FC = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  useEffect(() => {
+    if (headerRef.current) {
+      animateHeader(headerRef.current);
+    }
+  }, []);
+
   const closeMenu = () => {
     setIsOpen(false);
   };
 
   return (
-    <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? 'bg-white/80 dark:bg-[#1E1E1E]/90 backdrop-blur-lg border-b border-gray-200 dark:border-white/10' : 'bg-white dark:bg-[#121212] border-b border-transparent'}`}>
+    <header ref={headerRef} className={`header-anim fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? 'bg-white/80 dark:bg-[#1E1E1E]/90 backdrop-blur-lg border-b border-gray-200 dark:border-white/10' : 'bg-white dark:bg-[#121212] border-b border-transparent'}`}>
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="relative flex items-center justify-between h-20">
           <Logo />

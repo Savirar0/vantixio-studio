@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { SOCIAL_LINKS, CONTACT_EMAIL, CONTACT_PHONE_NUMBER, CONTACT_PHONE_LINK, SERVICES_DATA } from '../constants';
+import { animateContact } from '../animations';
 
 const ContactSection: React.FC = () => {
   const [formData, setFormData] = useState({ name: '', email: '', service: '', otherService: '', source: '', otherSource: '', message: '' });
+  const contactRef = useRef(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -16,8 +18,14 @@ const ContactSection: React.FC = () => {
     setFormData({ name: '', email: '', service: '', otherService: '', source: '', otherSource: '', message: '' });
   };
 
+  useEffect(() => {
+    if (contactRef.current) {
+      animateContact(contactRef.current);
+    }
+  }, []);
+
   return (
-    <section className="py-20 lg:py-32">
+    <section ref={contactRef} className="py-20 lg:py-32">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <h2 className="text-3xl lg:text-4xl font-extrabold text-[#111827] dark:text-[#F9FAFB]">
