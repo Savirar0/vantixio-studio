@@ -4,7 +4,7 @@ import { animatePortfolio } from '../animations';
 
 const PortfolioSection: React.FC = () => {
   const [activeCategory, setActiveCategory] = useState('All');
-  const portfolioRef = useRef<HTMLDivElement[]>([]);
+  const portfolioContainerRef = useRef<HTMLDivElement>(null);
 
   const categories = useMemo(() => {
     const uniqueCategories = new Set(PROJECTS_DATA.map(p => p.category));
@@ -19,10 +19,10 @@ const PortfolioSection: React.FC = () => {
   }, [activeCategory]);
 
   useEffect(() => {
-    portfolioRef.current.forEach((project) => {
-        if(project) animatePortfolio(project);
-    });
-    }, [filteredProjects]);
+    if (portfolioContainerRef.current) {
+      animatePortfolio(portfolioContainerRef.current);
+    }
+  }, []);
 
   return (
     <section className="py-20 lg:py-32 bg-gray-50 dark:bg-[#1E1E1E]">
@@ -52,17 +52,16 @@ const PortfolioSection: React.FC = () => {
             ))}
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div ref={portfolioContainerRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {filteredProjects.map((project, index) => (
             <a
               key={project.title + index}
               href={project.link}
               target="_blank"
               rel="noopener noreferrer"
-              ref={(el) => (portfolioRef.current[index] = el!)}
               className="group relative overflow-hidden rounded-xl border border-gray-200 dark:border-white/10 project-card"
             >
-              <img src={project.imageUrl} alt={project.title} className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-500" />
+              <img src={project.imageUrl} alt={project.title} className="w-full h-64 object-contain group-hover:scale-105 transition-transform duration-500" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
               <div className="absolute bottom-0 left-0 p-6">
                 <h3 className="text-xl font-bold text-white">{project.title}</h3>

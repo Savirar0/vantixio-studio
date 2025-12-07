@@ -3,7 +3,7 @@ import ServicesSection from '../components/ServicesSection';
 
 const ServicesPage: React.FC = () => {
   return (
-    <div className="pt-20">
+    <div className="pt-10">
       <ServicesSection />
     </div>
   );

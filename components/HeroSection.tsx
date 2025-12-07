@@ -53,7 +53,7 @@ const HeroSection: React.FC = () => {
     }, []);
 
   return (
-    <section ref={vantaRef} className="relative text-center overflow-hidden pt-40 pb-20 lg:pt-48 lg:pb-28">
+    <section ref={vantaRef} className="relative flex items-center justify-center text-center overflow-hidden min-h-screen">
         <div ref={heroRef} className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8">
             <h1 ref={titleRef} className="text-4xl sm:text-6xl lg:text-7xl font-extrabold text-[#111827] dark:text-white leading-tight tracking-tight mb-6">
                 The Future of Digital. <span className="text-[#3B82F6]">Delivered Today.</span>

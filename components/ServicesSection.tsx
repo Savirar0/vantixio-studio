@@ -12,7 +12,7 @@ const ServicesSection: React.FC = () => {
     }, []);
 
   return (
-    <section className="py-20 lg:py-32">
+    <section className="py-10 lg:py-16">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <h2 className="text-3xl lg:text-4xl font-extrabold text-[#111827] dark:text-[#F9FAFB]">Our Services</h2>

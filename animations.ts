@@ -39,19 +39,19 @@ export const animateServices = (service: string) => {
   );
 };
 
-export const animatePortfolio = (portfolio: string) => {
+export const animatePortfolio = (container: HTMLElement) => {
   gsap.fromTo(
-    portfolio,
+    container.children,
     { y: 100, opacity: 0 },
     {
       y: 0,
       opacity: 1,
       duration: 1,
       ease: "power3.out",
+      stagger: 0.15,
       scrollTrigger: {
-        trigger: portfolio,
+        trigger: container,
         start: "top 80%",
-        end: "bottom 20%",
         toggleActions: "play none none none",
       },
     }
