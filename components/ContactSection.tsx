@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { SOCIAL_LINKS, CONTACT_EMAIL, CONTACT_PHONE_NUMBER, CONTACT_PHONE_LINK, SERVICES_DATA } from '../constants';
+import { animateContact } from '../animations';
 
 const ContactSection: React.FC = () => {
   const [formData, setFormData] = useState({ name: '', email: '', service: '', otherService: '', source: '', otherSource: '', message: '' });
+  const contactRef = useRef(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -16,8 +18,14 @@ const ContactSection: React.FC = () => {
     setFormData({ name: '', email: '', service: '', otherService: '', source: '', otherSource: '', message: '' });
   };
 
+  useEffect(() => {
+    if (contactRef.current) {
+      animateContact(contactRef.current);
+    }
+  }, []);
+
   return (
-    <section className="py-20 lg:py-32">
+    <section ref={contactRef} className="py-20 lg:py-32">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <h2 className="text-3xl lg:text-4xl font-extrabold text-[#111827] dark:text-[#F9FAFB]">
@@ -31,10 +39,6 @@ const ContactSection: React.FC = () => {
           <div>
             <h3 className="text-2xl font-bold text-[#111827] dark:text-[#F9FAFB] mb-6">Contact Information</h3>
             <div className="space-y-4">
-               <p className="flex items-center text-[#6B7280] dark:text-[#9CA3AF]">
-                <svg className="h-5 w-5 mr-3 text-[#1D4ED8]" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
-                123 Digital Avenue, Tech City
-              </p>
               <a href={`mailto:${CONTACT_EMAIL}`} className="flex items-center text-[#6B7280] dark:text-[#9CA3AF] hover:text-[#3B82F6] dark:hover:text-[#3B82F6] transition-colors">
                 <svg className="h-5 w-5 mr-3 text-[#1D4ED8]" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
                 {CONTACT_EMAIL}

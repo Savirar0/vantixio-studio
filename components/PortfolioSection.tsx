@@ -1,7 +1,29 @@
-import React from 'react';
+import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { PROJECTS_DATA } from '../constants';
+import { animatePortfolio } from '../animations';
 
 const PortfolioSection: React.FC = () => {
+  const [activeCategory, setActiveCategory] = useState('All');
+  const portfolioRef = useRef<HTMLDivElement[]>([]);
+
+  const categories = useMemo(() => {
+    const uniqueCategories = new Set(PROJECTS_DATA.map(p => p.category));
+    return ['All', ...Array.from(uniqueCategories)];
+  }, []);
+
+  const filteredProjects = useMemo(() => {
+    if (activeCategory === 'All') {
+      return PROJECTS_DATA;
+    }
+    return PROJECTS_DATA.filter(project => project.category === activeCategory);
+  }, [activeCategory]);
+
+  useEffect(() => {
+    portfolioRef.current.forEach((project) => {
+        if(project) animatePortfolio(project);
+    });
+    }, [filteredProjects]);
+
   return (
     <section className="py-20 lg:py-32 bg-gray-50 dark:bg-[#1E1E1E]">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -14,13 +36,30 @@ const PortfolioSection: React.FC = () => {
           </p>
         </div>
 
+        <div className="flex justify-center flex-wrap gap-4 mb-12">
+            {categories.map(category => (
+                <button
+                    key={category}
+                    onClick={() => setActiveCategory(category)}
+                    className={`px-6 py-2 font-semibold rounded-lg transition-colors duration-300 ${
+                        activeCategory === category
+                        ? 'bg-[#1D4ED8] text-white'
+                        : 'bg-gray-200 dark:bg-gray-700 text-[#111827] dark:text-[#F9FAFB] hover:bg-gray-300 dark:hover:bg-gray-600'
+                    }`}
+                >
+                    {category}
+                </button>
+            ))}
+        </div>
+
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {PROJECTS_DATA.map((project, index) => (
+          {filteredProjects.map((project, index) => (
             <a
               key={project.title + index}
               href={project.link}
               target="_blank"
               rel="noopener noreferrer"
+              ref={(el) => (portfolioRef.current[index] = el!)}
               className="group relative overflow-hidden rounded-xl border border-gray-200 dark:border-white/10 project-card"
             >
               <img src={project.imageUrl} alt={project.title} className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-500" />
