@@ -1,21 +1,7 @@
-import React, { useState, useMemo } from 'react';
+import React from 'react';
 import { PROJECTS_DATA } from '../constants';
 
 const PortfolioSection: React.FC = () => {
-  const [activeCategory, setActiveCategory] = useState('All');
-
-  const categories = useMemo(() => {
-    const uniqueCategories = new Set(PROJECTS_DATA.map(p => p.category));
-    return ['All', ...Array.from(uniqueCategories)];
-  }, []);
-
-  const filteredProjects = useMemo(() => {
-    if (activeCategory === 'All') {
-      return PROJECTS_DATA;
-    }
-    return PROJECTS_DATA.filter(project => project.category === activeCategory);
-  }, [activeCategory]);
-
   return (
     <section className="py-20 lg:py-32 bg-gray-50 dark:bg-[#1E1E1E]">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -28,38 +14,21 @@ const PortfolioSection: React.FC = () => {
           </p>
         </div>
 
-        <div className="flex justify-center flex-wrap gap-2 mb-12">
-          {categories.map(category => (
-            <button
-              key={category}
-              onClick={() => setActiveCategory(category)}
-              className={`px-4 py-2 text-sm font-semibold rounded-full transition-colors duration-300 ${
-                activeCategory === category
-                  ? 'bg-[#1D4ED8] text-white'
-                  : 'bg-white dark:bg-[#121212] text-[#111827] dark:text-[#F9FAFB] hover:bg-gray-200 dark:hover:bg-white/10 border border-gray-300 dark:border-white/10'
-              }`}
-            >
-              {category}
-            </button>
-          ))}
-        </div>
-
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filteredProjects.map((project, index) => (
-            <div
+          {PROJECTS_DATA.map((project, index) => (
+            <a
               key={project.title + index}
+              href={project.link}
+              target="_blank"
+              rel="noopener noreferrer"
               className="group relative overflow-hidden rounded-xl border border-gray-200 dark:border-white/10 project-card"
             >
               <img src={project.imageUrl} alt={project.title} className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-500" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
               <div className="absolute bottom-0 left-0 p-6">
-                <p className="text-sm font-semibold text-[#3B82F6] mb-1">{project.category}</p>
                 <h3 className="text-xl font-bold text-white">{project.title}</h3>
-                <p className="text-[#9CA3AF] opacity-0 max-h-0 group-hover:opacity-100 group-hover:max-h-40 transition-all duration-500 ease-in-out mt-2">
-                    {project.description}
-                </p>
               </div>
-            </div>
+            </a>
           ))}
         </div>
       </div>

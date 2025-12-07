@@ -6,11 +6,6 @@ import BrandingIcon from './components/icons/BrandingIcon';
 import ECommerceIcon from './components/icons/ECommerceIcon';
 import ITSolutionsIcon from './components/icons/ITSolutionsIcon';
 import SocialMediaIcon from './components/icons/SocialMediaIcon';
-import ApexSolutionsIcon from './components/icons/clients/ApexSolutionsIcon';
-import NexusDynamicsIcon from './components/icons/clients/NexusDynamicsIcon';
-import QuantumLeapIcon from './components/icons/clients/QuantumLeapIcon';
-import StellarForgeIcon from './components/icons/clients/StellarForgeIcon';
-import ZenithWorksIcon from './components/icons/clients/ZenithWorksIcon';
 
 export const NAV_LINKS: NavLink[] = [
   { name: 'Home', href: '#/' },
@@ -60,42 +55,76 @@ export const SERVICES_DATA: Service[] = [
 ];
 
 export const PROJECTS_DATA: Project[] = [
-  {
-    imageUrl: 'https://picsum.photos/seed/project1/600/400',
-    title: 'Aura Glow Cosmetics',
-    category: 'E-commerce Solutions',
-    description: 'A complete e-commerce solution with a custom design system and integrated marketing tools.',
-  },
-  {
-    imageUrl: 'https://picsum.photos/seed/project2/600/400',
-    title: 'Innovate Inc.',
-    category: 'Branding & Graphic Design',
-    description: 'A full corporate rebranding, including a new logo, website, and digital marketing strategy.',
-  },
-  {
-    imageUrl: 'https://picsum.photos/seed/project3/600/400',
-    title: 'Fintech Mobile App',
-    category: 'Web & App Development',
-    description: 'A secure and intuitive mobile banking application for a leading fintech startup.',
-  },
-  {
-    imageUrl: 'https://picsum.photos/seed/project4/600/400',
-    title: 'Global Logistics Portal',
-    category: 'Web & App Development',
-    description: 'A complex web portal for managing international shipments and logistics data.',
-  },
-   {
-    imageUrl: 'https://picsum.photos/seed/project5/600/400',
-    title: 'HealthHub Telemedicine',
-    category: 'Web & App Development',
-    description: 'A platform connecting patients and doctors through secure video consultations.',
-  },
-  {
-    imageUrl: 'https://picsum.photos/seed/project6/600/400',
-    title: 'Quantum Analytics',
-    category: 'Branding & Graphic Design',
-    description: 'Developed a data-driven brand identity for a B2B analytics company.',
-  },
+    {
+        title: 'SAS Infra',
+        imageUrl: 'https://picsum.photos/seed/sas-infra/600/400',
+        link: '#',
+    },
+    {
+        title: 'OurSft',
+        imageUrl: 'https://picsum.photos/seed/our-sft/600/400',
+        link: '#',
+    },
+    {
+        title: 'Citypoint',
+        imageUrl: 'https://picsum.photos/seed/city-point/600/400',
+        link: '#',
+    },
+    {
+        title: 'Wani Perfumes',
+        imageUrl: 'https://picsum.photos/seed/wani-perfumes/600/400',
+        link: '#',
+    },
+    {
+        title: 'ForMen Health',
+        imageUrl: 'https://picsum.photos/seed/formen-health/600/400',
+        link: '#',
+    },
+    {
+        title: 'GNITS',
+        imageUrl: 'https://picsum.photos/seed/gnits/600/400',
+        link: '#',
+    },
+    {
+        title: 'Puravida Health',
+        imageUrl: 'https://picsum.photos/seed/puravida-health/600/400',
+        link: '#',
+    },
+    {
+        title: 'Hydromo',
+        imageUrl: 'https://picsum.photos/seed/hydromo/600/400',
+        link: '#',
+    },
+    {
+        title: 'Pi Carbon Credits',
+        imageUrl: 'https://picsum.photos/seed/pi-carbon-credits/600/400',
+        link: '#',
+    },
+    {
+        title: 'SalientMinds',
+        imageUrl: 'https://picsum.photos/seed/salient-minds/600/400',
+        link: '#',
+    },
+    {
+        title: 'Central Vacuum System India',
+        imageUrl: 'https://picsum.photos/seed/central-vacuum-system-india/600/400',
+        link: '#',
+    },
+    {
+        title: 'NeoCrystals',
+        imageUrl: 'https://picsum.photos/seed/neo-crystals/600/400',
+        link: '#',
+    },
+    {
+        title: 'The Neuron Store',
+        imageUrl: 'https://picsum.photos/seed/the-neuron-store/600/400',
+        link: '#',
+    },
+    {
+        title: 'Turito Blog',
+        imageUrl: 'https://picsum.photos/seed/turito-blog/600/400',
+        link: '#',
+    },
 ];
 
 const SocialIcon: React.FC<{ children: React.ReactNode }> = ({ children }) => (
@@ -153,9 +182,18 @@ export const SOCIAL_LINKS: SocialLink[] = [
 ];
 
 export const CLIENT_LOGOS = [
-    { name: 'QuantumLeap', icon: <QuantumLeapIcon /> },
-    { name: 'StellarForge', icon: <StellarForgeIcon /> },
-    { name: 'ApexSolutions', icon: <ApexSolutionsIcon /> },
-    { name: 'NexusDynamics', icon: <NexusDynamicsIcon /> },
-    { name: 'ZenithWorks', icon: <ZenithWorksIcon /> },
+    { name: 'SAS Infra', src: 'https://picsum.photos/seed/sas-infra/200/100' },
+    { name: 'OurSft', src: 'https://picsum.photos/seed/our-sft/200/100' },
+    { name: 'Citypoint', src: 'https://picsum.photos/seed/city-point/200/100' },
+    { name: 'Wani Perfumes', src: 'https://picsum.photos/seed/wani-perfumes/200/100' },
+    { name: 'ForMen Health', src: 'https://picsum.photos/seed/formen-health/200/100' },
+    { name: 'GNITS', src: 'https://picsum.photos/seed/gnits/200/100' },
+    { name: 'Puravida Health', src: 'https://picsum.photos/seed/puravida-health/200/100' },
+    { name: 'Hydromo', src: 'https://picsum.photos/seed/hydromo/200/100' },
+    { name: 'Pi Carbon Credits', src: 'https://picsum.photos/seed/pi-carbon-credits/200/100' },
+    { name: 'SalientMinds', src: 'https://picsum.photos/seed/salient-minds/200/100' },
+    { name: 'Central Vacuum System India', src: 'https://picsum.photos/seed/central-vacuum-system-india/200/100' },
+    { name: 'NeoCrystals', src: 'https://picsum.photos/seed/neo-crystals/200/100' },
+    { name: 'The Neuron Store', src: 'https://picsum.photos/seed/the-neuron-store/200/100' },
+    { name: 'Turito Blog', src: 'https://picsum.photos/seed/turito-blog/200/100' },
 ];

@@ -1,9 +1,56 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import NavLink from './NavLink';
+import { useTheme } from '../context/ThemeContext';
+
+declare global {
+  interface Window {
+    VANTA: any;
+  }
+}
 
 const HeroSection: React.FC = () => {
+  const vantaRef = useRef(null);
+  const { theme } = useTheme();
+
+  useEffect(() => {
+    let vantaEffect: any;
+    if (window.VANTA) {
+      if (theme === 'dark') {
+        vantaEffect = window.VANTA.GLOBE({
+          el: vantaRef.current,
+          mouseControls: true,
+          touchControls: true,
+          gyroControls: false,
+          minHeight: 200.00,
+          minWidth: 200.00,
+          scale: 1.00,
+          scaleMobile: 1.00,
+          color: 0xbb0a3d,
+          backgroundColor: 0x0,
+        });
+      } else {
+        vantaEffect = window.VANTA.DOTS({
+          el: vantaRef.current,
+          mouseControls: true,
+          touchControls: true,
+          gyroControls: false,
+          minHeight: 200.00,
+          minWidth: 200.00,
+          scale: 1.00,
+          scaleMobile: 1.00,
+          color: 0x0,
+          color2: 0x76f7,
+          backgroundColor: 0xffffff
+        });
+      }
+    }
+    return () => {
+      if (vantaEffect) vantaEffect.destroy();
+    };
+  }, [theme]);
+
   return (
-    <section className="relative text-center overflow-hidden bg-gray-50 dark:bg-[#1E1E1E] pt-40 pb-20 lg:pt-48 lg:pb-28">
+    <section ref={vantaRef} className="relative text-center overflow-hidden bg-gray-50 dark:bg-[#1E1E1E] min-h-screen flex flex-col justify-center items-center">
       <div className="relative z-20 container mx-auto px-4 sm:px-6 lg:px-8">
         <h1 className="text-4xl sm:text-6xl lg:text-7xl font-extrabold text-[#111827] dark:text-[#F9FAFB] leading-tight tracking-tight mb-6">
           The Future of Digital. <span className="text-[#3B82F6]">Delivered Today.</span>
