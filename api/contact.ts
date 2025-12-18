@@ -19,7 +19,8 @@ export default async function handler(
       return response.status(400).json({ error: 'Missing required fields' });
     }
 
-    await resend.emails.send({
+    // The corrected Resend API call
+    const { data, error } = await resend.emails.send({
       from: 'onboarding@resend.dev',
       to: 'peddamallanavadeep@gmail.com',
       subject: 'New Contact Form Submission from your Website',
@@ -35,7 +36,16 @@ export default async function handler(
       `,
     });
 
+    // Check for errors returned from Resend
+    if (error) {
+      console.error({ error });
+      return response.status(500).json({ error: 'Error from Resend' });
+    }
+
+    // Log the success data and send a success response
+    console.log({ data });
     return response.status(200).json({ message: 'Email sent successfully' });
+
   } catch (error) {
     console.error(error);
     return response.status(500).json({ error: 'Something went wrong' });
