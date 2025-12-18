@@ -22,7 +22,7 @@ export default async function handler(
     // The corrected Resend API call
     const { data, error } = await resend.emails.send({
       from: 'onboarding@resend.dev',
-      to: 'peddamallanavadeep@gmail.com',
+      to: 'monishkoushal448@gmail.com', // Changed to your registered Resend email for testing
       subject: 'New Contact Form Submission from your Website',
       replyTo: email,
       html: `
