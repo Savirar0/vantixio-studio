@@ -2,6 +2,7 @@ import React from 'react';
 import HeroSection from '../components/HeroSection';
 import ClientLogosSection from '../components/ClientLogosSection';
 import TestimonialsSection from '../components/TestimonialsSection';
+import InstagramCard from '../components/InstagramCard';
 
 const HomePage: React.FC = () => {
   return (
@@ -9,6 +10,7 @@ const HomePage: React.FC = () => {
       <HeroSection />
       <ClientLogosSection />
       <TestimonialsSection />
+      <InstagramCard />
     </>
   );
 };
