@@ -23,7 +23,7 @@ export default async function handler(
       from: 'onboarding@resend.dev',
       to: 'peddamallanavadeep@gmail.com',
       subject: 'New Contact Form Submission from your Website',
-      reply_to: email,
+      replyTo: email,
       html: `
         <h2>New Contact Form Submission</h2>
         <p><strong>Name:</strong> ${name}</p>
