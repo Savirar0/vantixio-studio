@@ -20,7 +20,7 @@ import {
 } from 'lucide-react';
 import { SERVICES, MASTERY } from '../constants';
 import { Button } from '../components/Button';
-import Threads from '../components/Thread'; // Add this import
+import Threads from '../components/Thread'; 
 
 const CapabilityCard: React.FC<{ service: typeof SERVICES[0]; index: number }> = ({ service, index }) => {
   const icons = [
@@ -120,52 +120,74 @@ export const Home: React.FC = () => {
     <div className="flex flex-col relative overflow-hidden bg-ivory">
       {/* Hero Section with Threads Background */}
       
-      <section className="relative px-6 sm:px-10 lg:px-16 pt-24 sm:pt-40 lg:pt-52 max-w-[1440px] mx-auto w-full flex flex-col">
-        {/* Threads Animation Background */}
-        <div style={{ 
-          position: 'absolute', 
-          top: 0, 
-          left: 0, 
-          width: '100%', 
-          height: '100%',
-          zIndex: 0,
-          pointerEvents: 'none' // Allows clicks to pass through to content
-        }}>
-          <Threads
-            amplitude={1}
-            distance={0}
-            enableMouseInteraction={true}
-          />
-        </div>
+      <section className="relative w-full overflow-hidden">
+  <div
+    style={{
+      position: "absolute",
+      top: 0,
+      left: 0,
+      width: "100%",
+      height: "100%",
+      zIndex: 0,
+      pointerEvents: "none",
+    }}
+  >
+    <Threads
+      amplitude={1}
+      distance={0}
+      enableMouseInteraction={true}
+    />
+  </div>
+  <div className="relative z-10 max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-16 pt-24 sm:pt-40 lg:pt-52 w-full flex flex-col">
+    
+    <div className="max-w-6xl">
+      <div className="animate-fade-up">
+        <h1 className="text-[clamp(2.2rem,8vw,5.5rem)] font-serif font-medium text-primary tracking-tighter leading-[1.1] mb-8 sm:mb-10 text-balance">
+          Your Technical <br />
+          <span className="italic text-secondary/80">Co-Founder</span> & Product
+          Partner.
+        </h1>
 
-        {/* Hero Content - positioned above Threads */}
-        <div className="relative z-10 max-w-6xl">
-          <div className="animate-fade-up">
-            <h1 className="text-[clamp(2.2rem,8vw,5.5rem)] font-serif font-medium text-primary tracking-tighter leading-[1.1] mb-8 sm:mb-10 text-balance">
-              Your Technical <br />
-              <span className="italic text-secondary/80">Co-Founder</span> & Product Partner.
-            </h1>
-            
-            <div className="flex items-center gap-4 sm:gap-5 mb-10 sm:mb-14">
-               <div className="w-[1px] h-10 sm:h-14 bg-primary/20"></div>
-               <p className="text-sm sm:text-xl text-primary/60 font-medium tracking-tight max-w-[240px] sm:max-w-md">
-                Not vendors. Your long-term technical partner for scale.
-              </p>
-            </div>
-          </div>
-          
-          <div className="flex flex-col md:flex-row gap-8 sm:gap-14 md:items-end animate-fade-up delay-200 mb-20 sm:mb-28 lg:mb-32">
-            <div className="max-w-2xl">
-              <p className="text-lg sm:text-2xl lg:text-3xl text-secondary font-light leading-relaxed mb-10 sm:mb-12 text-balance">
-                We build brands and digital products for startups and enterprises — taking ownership from idea to launch and beyond.
-              </p>
-              <div className="flex flex-col xs:flex-row gap-4">
-                <Button href="#contact" variant="primary" fullWidth className="xs:w-auto">Book a Discovery Call</Button>
-                <Button href="#projects" variant="minimal" fullWidth className="xs:w-auto">View Selected Work</Button>
-              </div>
-            </div>
+        <div className="flex items-center gap-4 sm:gap-5 mb-10 sm:mb-14">
+          <div className="w-[1px] h-10 sm:h-14 bg-primary/20"></div>
+          <p className="text-sm sm:text-xl text-primary/60 font-medium tracking-tight max-w-[240px] sm:max-w-md">
+            Not vendors. Your long-term technical partner for scale.
+          </p>
+        </div>
+      </div>
+
+      <div className="flex flex-col md:flex-row gap-8 sm:gap-14 md:items-end animate-fade-up delay-200 mb-20 sm:mb-28 lg:mb-32">
+        <div className="max-w-2xl">
+          <p className="text-lg sm:text-2xl lg:text-3xl text-secondary font-light leading-relaxed mb-10 sm:mb-12 text-balance">
+            We build brands and digital products for startups and enterprises —
+            taking ownership from idea to launch and beyond.
+          </p>
+          <div className="flex flex-col xs:flex-row gap-4">
+            <Button
+              href="#contact"
+              variant="primary"
+              fullWidth
+              className="xs:w-auto"
+            >
+              Book a Discovery Call
+            </Button>
+            <Button
+              href="#projects"
+              variant="minimal"
+              fullWidth
+              className="xs:w-auto"
+            >
+              View Selected Work
+            </Button>
           </div>
         </div>
+      </div>
+    </div>
+  </div>
+</section>
+      
+      <div>
+      <section className="relative px-6 sm:px-10 lg:px-16 pt-24 sm:pt-40 lg:pt-52 max-w-[1440px] mx-auto w-full flex flex-col">
 
         {/* Statistics Block */}
         <div className="relative z-10 w-full border-t border-primary/10 pt-16 sm:pt-20 pb-20 sm:pb-32 animate-fade-in delay-300">
@@ -190,7 +212,7 @@ export const Home: React.FC = () => {
           </div>
         </div>
       </section>
-
+      
       {/* Capabilities Section */}
       <section className="px-6 sm:px-10 lg:px-16 py-20 sm:py-32 bg-white border-y border-border">
         <div className="max-w-[1440px] mx-auto">
@@ -268,6 +290,7 @@ export const Home: React.FC = () => {
           </div>
         </div>
       </section>
+      </div>
     </div>
   );
 };
