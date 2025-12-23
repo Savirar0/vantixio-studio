@@ -16,8 +16,6 @@ const items = [
 
     { icon: <LuHandshake size={18} />, label: 'Clients', onClick: () => alert('Clients!') },
 
-    
-
     { icon: <LuSend size={18} />, label: 'Contact', onClick: () => alert('Contact!') },
 
   ];
