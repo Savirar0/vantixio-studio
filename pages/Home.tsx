@@ -20,7 +20,7 @@ import {
 } from 'lucide-react';
 import { SERVICES, MASTERY } from '../constants';
 import { Button } from '../components/Button';
-import Threads from '../components/Thread'; 
+import Threads from '../components/Thread'; // Add this import
 
 const CapabilityCard: React.FC<{ service: typeof SERVICES[0]; index: number }> = ({ service, index }) => {
   const icons = [
@@ -119,9 +119,24 @@ export const Home: React.FC = () => {
   return (
     <div className="flex flex-col relative overflow-hidden bg-ivory">
       {/* Hero Section with Threads Background */}
+      
       <section className="relative px-6 sm:px-10 lg:px-16 pt-24 sm:pt-40 lg:pt-52 max-w-[1440px] mx-auto w-full flex flex-col">
         {/* Threads Animation Background */}
-        
+        <div style={{ 
+          position: 'absolute', 
+          top: 0, 
+          left: 0, 
+          width: '100%', 
+          height: '100%',
+          zIndex: 0,
+          pointerEvents: 'none' // Allows clicks to pass through to content
+        }}>
+          <Threads
+            amplitude={1}
+            distance={0}
+            enableMouseInteraction={true}
+          />
+        </div>
 
         {/* Hero Content - positioned above Threads */}
         <div className="relative z-10 max-w-6xl">
@@ -151,7 +166,6 @@ export const Home: React.FC = () => {
             </div>
           </div>
         </div>
-        
 
         {/* Statistics Block */}
         <div className="relative z-10 w-full border-t border-primary/10 pt-16 sm:pt-20 pb-20 sm:pb-32 animate-fade-in delay-300">
