@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { 
   ArrowDownRight, 
   Code2, 
@@ -20,7 +20,19 @@ import {
 } from 'lucide-react';
 import { SERVICES, MASTERY } from '../constants';
 import { Button } from '../components/Button';
-import Threads from '../components/Thread'; 
+import Threads from '../components/Thread';
+import VariableProximity from '../components/VariableProximity';
+
+// Load variable serif fonts for the effect
+if (typeof document !== 'undefined') {
+  // Load Fraunces - a variable display serif font
+  const link = document.createElement('link');
+  link.href = 'https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,100..900;1,100..900&display=swap';
+  link.rel = 'stylesheet';
+  if (!document.querySelector(`link[href="${link.href}"]`)) {
+    document.head.appendChild(link);
+  }
+}
 
 const CapabilityCard: React.FC<{ service: typeof SERVICES[0]; index: number }> = ({ service, index }) => {
   const icons = [
@@ -116,79 +128,132 @@ export const Home: React.FC = () => {
     { label: 'Avg Partnership', value: '3+ Yrs' },
   ];
 
+  // Refs for VariableProximity effect
+  const heroTitleRef = useRef(null);
+  const heroSubtitleRef = useRef(null);
+  const heroDescriptionRef = useRef(null);
+  const partnershipTextRef = useRef(null);
+
   return (
     <div className="flex flex-col relative overflow-hidden bg-ivory">
       {/* Hero Section with Threads Background */}
       
-      <section className="relative w-full overflow-hidden">
-  <div
-    style={{
-      position: "absolute",
-      top: 0,
-      left: 0,
-      width: "100%",
-      height: "100%",
-      zIndex: 0,
-      pointerEvents: "none",
-    }}
-  >
-    <Threads
-      amplitude={1}
-      distance={0}
-      enableMouseInteraction={true}
-    />
-  </div>
-  <div className="relative z-10 max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-16 pt-24 sm:pt-40 lg:pt-52 w-full flex flex-col">
-    
-    <div className="max-w-6xl">
-      <div className="animate-fade-up">
-        <h1 className="text-[clamp(2.2rem,8vw,5.5rem)] font-serif font-medium text-primary tracking-tighter leading-[1.1] mb-8 sm:mb-10 text-balance">
-          Your Technical <br />
-          <span className="italic text-secondary/80">Co-Founder</span> & Product
-          Partner.
-        </h1>
-
-        <div className="flex items-center gap-4 sm:gap-5 mb-10 sm:mb-14">
-          <div className="w-[1px] h-10 sm:h-14 bg-primary/20"></div>
-          <p className="text-sm sm:text-xl text-primary/60 font-medium tracking-tight max-w-[240px] sm:max-w-md">
-            Not vendors. Your long-term technical partner for scale.
-          </p>
+      <section className="relative w-full overflow-hidden min-h-screen flex items-center">
+        <div
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            zIndex: 0,
+            pointerEvents: "none",
+          }}
+        >
+          <Threads
+            amplitude={1}
+            distance={0}
+            enableMouseInteraction={true}
+          />
         </div>
-      </div>
+        
+        <div className="relative z-10 max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-16 w-full flex flex-col">
+          <div className="max-w-6xl">
+            <div className="animate-fade-up">
+              {/* Hero Title with VariableProximity */}
+              <div ref={heroTitleRef} style={{ position: 'relative' }}>
+                <h1 className="text-[clamp(2.2rem,8vw,5.5rem)] font-serif font-medium text-primary tracking-tighter leading-[1.1] mb-8 sm:mb-10 text-balance">
+                  <VariableProximity
+                    label="Your Technical"
+                    className="text-primary"
+                    fromFontVariationSettings="'wght' 500"
+                    toFontVariationSettings="'wght' 700"
+                    containerRef={heroTitleRef}
+                    radius={150}
+                    falloff="linear"
+                  />
+                  <br />
+                  <span className="italic text-secondary/80">
+                    <VariableProximity
+                      label="Co-Founder"
+                      className="text-secondary/80"
+                      fromFontVariationSettings="'wght' 500"
+                      toFontVariationSettings="'wght' 700"
+                      containerRef={heroTitleRef}
+                      radius={150}
+                      falloff="linear"
+                    />
+                  </span>
+                  {' '}
+                  <VariableProximity
+                    label="& Product Partner."
+                    className="text-primary"
+                    fromFontVariationSettings="'wght' 500"
+                    toFontVariationSettings="'wght' 700"
+                    containerRef={heroTitleRef}
+                    radius={150}
+                    falloff="linear"
+                  />
+                </h1>
+              </div>
 
-      <div className="flex flex-col md:flex-row gap-8 sm:gap-14 md:items-end animate-fade-up delay-200 mb-20 sm:mb-28 lg:mb-32">
-        <div className="max-w-2xl">
-          <p className="text-lg sm:text-2xl lg:text-3xl text-secondary font-light leading-relaxed mb-10 sm:mb-12 text-balance">
-            We build brands and digital products for startups and enterprises —
-            taking ownership from idea to launch and beyond.
-          </p>
-          <div className="flex flex-col xs:flex-row gap-4">
-            <Button
-              href="#contact"
-              variant="primary"
-              fullWidth
-              className="xs:w-auto"
-            >
-              Book a Discovery Call
-            </Button>
-            <Button
-              href="#projects"
-              variant="minimal"
-              fullWidth
-              className="xs:w-auto"
-            >
-              View Selected Work
-            </Button>
+              {/* Subtitle with VariableProximity */}
+              <div className="flex items-center gap-4 sm:gap-5 mb-10 sm:mb-14">
+                <div className="w-[1px] h-10 sm:h-14 bg-primary/20"></div>
+                <div ref={heroSubtitleRef} style={{ position: 'relative' }} className="max-w-[240px] sm:max-w-md">
+                  <VariableProximity
+                    label="Not vendors. Your long-term technical partner for scale."
+                    className="text-sm sm:text-xl text-primary/60 font-medium tracking-tight"
+                    fromFontVariationSettings="'wght' 500"
+                    toFontVariationSettings="'wght' 700"
+                    containerRef={heroSubtitleRef}
+                    radius={120}
+                    falloff="linear"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="flex flex-col md:flex-row gap-8 sm:gap-14 md:items-end animate-fade-up delay-200 mb-10 sm:mb-16">
+              <div className="max-w-2xl">
+                {/* Description with VariableProximity */}
+                <div ref={heroDescriptionRef} style={{ position: 'relative' }} className="mb-10 sm:mb-12">
+                  <VariableProximity
+                    label="We build brands and digital products for startups and enterprises — taking ownership from idea to launch and beyond."
+                    className="text-lg sm:text-2xl lg:text-3xl text-secondary font-light leading-relaxed text-balance"
+                    fromFontVariationSettings="'wght' 300"
+                    toFontVariationSettings="'wght' 500"
+                    containerRef={heroDescriptionRef}
+                    radius={140}
+                    falloff="linear"
+                  />
+                </div>
+                
+                <div className="flex flex-col xs:flex-row gap-4">
+                  <Button
+                    href="#contact"
+                    variant="primary"
+                    fullWidth
+                    className="xs:w-auto"
+                  >
+                    Book a Discovery Call
+                  </Button>
+                  <Button
+                    href="#projects"
+                    variant="minimal"
+                    fullWidth
+                    className="xs:w-auto"
+                  >
+                    View Selected Work
+                  </Button>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-    </div>
-  </div>
-</section>
-      
-      <div>
-      <section className="relative px-6 sm:px-10 lg:px-16 pt-24 sm:pt-40 lg:pt-52 max-w-[1440px] mx-auto w-full flex flex-col">
+      </section>
 
+      <section className="relative px-6 sm:px-10 lg:px-16 pt-12 sm:pt-16 max-w-[1440px] mx-auto w-full flex flex-col">
         {/* Statistics Block */}
         <div className="relative z-10 w-full border-t border-primary/10 pt-16 sm:pt-20 pb-20 sm:pb-32 animate-fade-in delay-300">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 sm:gap-16 mb-16 sm:mb-20">
@@ -196,9 +261,17 @@ export const Home: React.FC = () => {
               <span className="inline-block px-3 py-1 bg-white border border-border text-[10px] font-bold uppercase tracking-widest text-primary/60 mb-4 rounded-sm">/partnership</span>
             </div>
             <div className="lg:col-span-8">
-              <p className="text-xl sm:text-4xl lg:text-5xl font-light leading-snug text-primary text-balance lg:max-w-4xl">
-                Fast-moving SaaS companies and modern brands choose <span className="font-serif italic font-medium">Vantixio Studio</span> as their in-house team alternative.
-              </p>
+              <div ref={partnershipTextRef} style={{ position: 'relative' }}>
+                <VariableProximity
+                  label="Fast-moving SaaS companies and modern brands choose Vantixio Studio as their in-house team alternative."
+                  className="text-xl sm:text-4xl lg:text-5xl font-light leading-snug text-primary text-balance lg:max-w-4xl"
+                  fromFontVariationSettings="'wght' 300"
+                  toFontVariationSettings="'wght' 500"
+                  containerRef={partnershipTextRef}
+                  radius={160}
+                  falloff="linear"
+                />
+              </div>
             </div>
           </div>
           
@@ -272,9 +345,9 @@ export const Home: React.FC = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="px-6 sm:px-10 lg:px-16 py-24 sm:py-48 text-center bg-white relative">
+      <section className="px-6 sm:px-10 lg:px-16 pt-16 sm:pt-24 pb-24 sm:pb-48 text-center bg-white relative">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-px h-24 bg-gradient-to-b from-primary/20 to-transparent"></div>
-        <div className="max-w-4xl auto">
+        <div className="max-w-4xl mx-auto">
           <h2 className="text-3xl sm:text-6xl lg:text-7xl font-serif text-primary mb-12 sm:mb-16 tracking-tight leading-[1.1] text-balance">Let's build something <span className="italic text-accent">that scales</span>.</h2>
           <div className="flex justify-center">
             <Button 
@@ -290,7 +363,6 @@ export const Home: React.FC = () => {
           </div>
         </div>
       </section>
-      </div>
     </div>
   );
 };
