@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Button } from './Button';
 import { ArrowUpRight, Menu, X } from 'lucide-react';
 import { LuUsers, LuLayers, LuHandshake, LuSend, LuHouse } from "react-icons/lu";
-
+import logo from "/assets/logo.png";
 export const Navigation: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -42,7 +42,7 @@ export const Navigation: React.FC = () => {
             className="flex items-center gap-2 text-2xl font-serif text-primary hover:text-accent transition-colors"
           >
             <img 
-              src="/assets/logo.png" 
+              src={logo}
               alt="Vantixio Logo" 
               className="h-16 w-16 object-contain"
             />
