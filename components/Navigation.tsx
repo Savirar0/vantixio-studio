@@ -44,9 +44,8 @@ export const Navigation: React.FC = () => {
             <img 
               src={logo}
               alt="Vantixio Logo" 
-              className="h-24 w-24 object-contain"
+              className="h-56 w-56 object-contain"
             />
-            Vantixio.
           </a>
           
           {/* Desktop Button - Hidden on mobile/tablet */}
