@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Button } from './Button';
 import { ArrowUpRight, Menu, X } from 'lucide-react';
 import { LuUsers, LuLayers, LuHandshake, LuSend, LuHouse } from "react-icons/lu";
-import logo from "/assets/logo.png";
+import logo from '../assets/logo.png';
 export const Navigation: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 

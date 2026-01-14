@@ -93,7 +93,7 @@ export const Contact: React.FC = () => {
                     <h3 className="text-[10px] uppercase tracking-ultra text-white/40 mb-5 font-bold">Social Presence</h3>
                     <div className="flex flex-col gap-4">
                        <a 
-                         href="https://linkedin.com" 
+                         href="https://www.linkedin.com/in/vantixio-15862b3a3?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" 
                          target="_blank" 
                          rel="noopener noreferrer" 
                          aria-label="LinkedIn"
@@ -103,7 +103,7 @@ export const Contact: React.FC = () => {
                          <span className="text-sm font-medium">LinkedIn</span>
                        </a>
                        <a 
-                         href="https://instagram.com" 
+                         href="https://www.instagram.com/vantixio" 
                          target="_blank" 
                          rel="noopener noreferrer" 
                          aria-label="Instagram"
@@ -112,7 +112,7 @@ export const Contact: React.FC = () => {
                          <Instagram size={18} />
                          <span className="text-sm font-medium">Instagram</span>
                        </a>
-                       <a 
+                       {/* <a 
                          href="https://reddit.com" 
                          target="_blank" 
                          rel="noopener noreferrer" 
@@ -121,7 +121,7 @@ export const Contact: React.FC = () => {
                        >
                          <RedditIcon className="w-5 h-5" />
                          <span className="text-sm font-medium">Reddit</span>
-                       </a>
+                       </a> */}
                     </div>
                  </div>
               </div>

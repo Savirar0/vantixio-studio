@@ -1,5 +1,4 @@
 import { ServiceItem, MasteryItem, ProjectItem, NavItem } from './types';
-
 export const NAV_ITEMS: NavItem[] = [
   { label: 'The Studio', path: '#about' },
   { label: 'Work', path: '#projects' },
@@ -69,6 +68,14 @@ export const PROJECTS: ProjectItem[] = [
     highlight: true,
     link: 'https://vantixio.com',
     imageUrl: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=1200'
+  },
+  {
+    title: 'Ashtonava',
+    category: 'Clothing & Fashion',
+    description: '',
+    highlight: true,
+    link: 'https://ashtonava.in/',
+    imageUrl: 'https://ashtonava.in/cdn/shop/files/Beige_Gray_Aesthetic_Photo_Collage_Shop_New_Collection_Promotion_Banner_1.png?v=1768200959&width=1920'
   },
   {
     title: 'OurSqft',

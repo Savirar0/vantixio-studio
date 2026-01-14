@@ -36,10 +36,10 @@ export const Footer: React.FC = () => {
   const [legalType, setLegalType] = useState<'privacy' | 'cookies' | 'terms' | null>(null);
 
   const socialLinks = [
-    { icon: <Linkedin size={22} strokeWidth={1.5} />, href: "https://linkedin.com", label: "LinkedIn" },
-    { icon: <Twitter size={22} strokeWidth={1.5} />, href: "https://twitter.com", label: "Twitter" },
-    { icon: <Instagram size={22} strokeWidth={1.5} />, href: "https://instagram.com", label: "Instagram" },
-    { icon: <RedditIcon size={22} />, href: "https://reddit.com", label: "Reddit" },
+    { icon: <Linkedin size={22} strokeWidth={1.5} />, href: "https://www.linkedin.com/in/vantixio-15862b3a3?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app", label: "LinkedIn" },
+    //{ icon: <Twitter size={22} strokeWidth={1.5} />, href: "https://twitter.com", label: "Twitter" },
+    { icon: <Instagram size={22} strokeWidth={1.5} />, href: "https://www.instagram.com/vantixio", label: "Instagram" },
+    //{ icon: <RedditIcon size={22} />, href: "https://reddit.com", label: "Reddit" },
     { icon: <WhatsAppIcon size={22} />, href: "https://wa.me/919652145987", label: "WhatsApp" },
   ];
 

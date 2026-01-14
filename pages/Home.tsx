@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, memo, useCallback, lazy, Suspense } from 'react';
 import { 
   ArrowDownRight, 
   Code2, 
@@ -20,21 +20,17 @@ import {
 } from 'lucide-react';
 import { SERVICES, MASTERY } from '../constants';
 import { Button } from '../components/Button';
-import Threads from '../components/Thread';
-import VariableProximity from '../components/VariableProximity';
 
-// Load variable serif fonts for the effect
-if (typeof document !== 'undefined') {
-  // Load Fraunces - a variable display serif font
-  const link = document.createElement('link');
-  link.href = 'https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,100..900;1,100..900&display=swap';
-  link.rel = 'stylesheet';
-  if (!document.querySelector(`link[href="${link.href}"]`)) {
-    document.head.appendChild(link);
-  }
-}
+// Lazy load heavy components
+const Threads = lazy(() => import('../components/Thread'));
+const VariableProximity = lazy(() => import('../components/VariableProximity'));
 
-const CapabilityCard: React.FC<{ service: typeof SERVICES[0]; index: number }> = ({ service, index }) => {
+// Preload font in index.html instead of in component
+// Remove this entire block and add to index.html: 
+// <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+// Memoized CapabilityCard to prevent unnecessary re-renders
+const CapabilityCard: React.FC<{ service: typeof SERVICES[0]; index: number }> = memo(({ service, index }) => {
   const icons = [
     <Terminal size={24} strokeWidth={1.5} />,
     <Layout size={24} strokeWidth={1.5} />,
@@ -85,17 +81,25 @@ const CapabilityCard: React.FC<{ service: typeof SERVICES[0]; index: number }> =
       </div>
     </div>
   );
-};
+});
 
-const MasteryAccordionItem: React.FC<{ skill: string }> = ({ skill }) => {
+CapabilityCard.displayName = 'CapabilityCard';
+
+// Memoized accordion item
+const MasteryAccordionItem: React.FC<{ skill: string }> = memo(({ skill }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [tech, outcome] = skill.split('—');
+
+  const handleToggle = useCallback(() => {
+    setIsOpen(prev => !prev);
+  }, []);
 
   return (
     <div className={`border-b border-white/10 transition-all duration-500 ${isOpen ? 'bg-white/[0.04]' : 'hover:bg-white/[0.02]'}`}>
       <button 
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={handleToggle}
         className="w-full py-6 px-6 sm:px-8 flex items-center justify-between text-left focus:outline-none group"
+        aria-expanded={isOpen}
       >
         <span className="text-white font-serif italic text-lg sm:text-2xl tracking-tight group-hover:text-accent-light transition-colors">
           {tech.trim()}
@@ -119,9 +123,17 @@ const MasteryAccordionItem: React.FC<{ skill: string }> = ({ skill }) => {
       </div>
     </div>
   );
-};
+});
+
+MasteryAccordionItem.displayName = 'MasteryAccordionItem';
+
+// Simple fallback for lazy components
+const ComponentLoader = () => <div className="w-full h-full" />;
 
 export const Home: React.FC = () => {
+  const [showThreads, setShowThreads] = useState(false);
+  const [enableProximity, setEnableProximity] = useState(false);
+  
   const stats = [
     { label: 'Daily Users Supported', value: '10k+' },
     { label: 'Client Retention', value: '95%' },
@@ -129,33 +141,52 @@ export const Home: React.FC = () => {
   ];
 
   // Refs for VariableProximity effect
-  const heroTitleRef = useRef(null);
-  const heroSubtitleRef = useRef(null);
-  const heroDescriptionRef = useRef(null);
-  const partnershipTextRef = useRef(null);
+  const heroTitleRef = useRef<HTMLDivElement>(null);
+  const heroSubtitleRef = useRef<HTMLDivElement>(null);
+  const heroDescriptionRef = useRef<HTMLDivElement>(null);
+  const partnershipTextRef = useRef<HTMLDivElement>(null);
+
+  // Only enable heavy effects after initial render
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowThreads(true);
+    }, 100);
+    
+    const proximityTimer = setTimeout(() => {
+      setEnableProximity(true);
+    }, 300);
+
+    return () => {
+      clearTimeout(timer);
+      clearTimeout(proximityTimer);
+    };
+  }, []);
 
   return (
     <div className="flex flex-col relative overflow-hidden bg-ivory">
       {/* Hero Section with Threads Background */}
-      
       <section className="relative w-full overflow-hidden min-h-screen flex items-center">
-        <div
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            width: "100%",
-            height: "100%",
-            zIndex: 0,
-            pointerEvents: "none",
-          }}
-        >
-          <Threads
-            amplitude={1}
-            distance={0}
-            enableMouseInteraction={true}
-          />
-        </div>
+        {showThreads && (
+          <div
+            style={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              width: "100%",
+              height: "100%",
+              zIndex: 0,
+              pointerEvents: "none",
+            }}
+          >
+            <Suspense fallback={<ComponentLoader />}>
+              <Threads
+                amplitude={1}
+                distance={0}
+                enableMouseInteraction={true}
+              />
+            </Suspense>
+          </div>
+        )}
         
         <div className="relative z-10 max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-16 w-full flex flex-col">
           <div className="max-w-6xl">
@@ -163,37 +194,55 @@ export const Home: React.FC = () => {
               {/* Hero Title with VariableProximity */}
               <div ref={heroTitleRef} style={{ position: 'relative' }}>
                 <h1 className="text-[clamp(2.2rem,8vw,5.5rem)] font-serif font-medium text-primary tracking-tighter leading-[1.1] mb-8 sm:mb-10 text-balance">
-                  <VariableProximity
-                    label="Your Technical"
-                    className="text-primary"
-                    fromFontVariationSettings="'wght' 500"
-                    toFontVariationSettings="'wght' 700"
-                    containerRef={heroTitleRef}
-                    radius={150}
-                    falloff="linear"
-                  />
+                  {enableProximity ? (
+                    <Suspense fallback={<span>Your Technical</span>}>
+                      <VariableProximity
+                        label="Your Technical"
+                        className="text-primary"
+                        fromFontVariationSettings="'wght' 500"
+                        toFontVariationSettings="'wght' 700"
+                        containerRef={heroTitleRef}
+                        radius={150}
+                        falloff="linear"
+                      />
+                    </Suspense>
+                  ) : (
+                    <span>Your Technical</span>
+                  )}
                   <br />
                   <span className="italic text-secondary/80">
-                    <VariableProximity
-                      label="Co-Founder"
-                      className="text-secondary/80"
-                      fromFontVariationSettings="'wght' 500"
-                      toFontVariationSettings="'wght' 700"
-                      containerRef={heroTitleRef}
-                      radius={150}
-                      falloff="linear"
-                    />
+                    {enableProximity ? (
+                      <Suspense fallback={<span>Co-Founder</span>}>
+                        <VariableProximity
+                          label="Co-Founder"
+                          className="text-secondary/80"
+                          fromFontVariationSettings="'wght' 500"
+                          toFontVariationSettings="'wght' 700"
+                          containerRef={heroTitleRef}
+                          radius={150}
+                          falloff="linear"
+                        />
+                      </Suspense>
+                    ) : (
+                      <span>Co-Founder</span>
+                    )}
                   </span>
                   {' '}
-                  <VariableProximity
-                    label="& Product Partner."
-                    className="text-primary"
-                    fromFontVariationSettings="'wght' 500"
-                    toFontVariationSettings="'wght' 700"
-                    containerRef={heroTitleRef}
-                    radius={150}
-                    falloff="linear"
-                  />
+                  {enableProximity ? (
+                    <Suspense fallback={<span>& Product Partner.</span>}>
+                      <VariableProximity
+                        label="& Product Partner."
+                        className="text-primary"
+                        fromFontVariationSettings="'wght' 500"
+                        toFontVariationSettings="'wght' 700"
+                        containerRef={heroTitleRef}
+                        radius={150}
+                        falloff="linear"
+                      />
+                    </Suspense>
+                  ) : (
+                    <span>& Product Partner.</span>
+                  )}
                 </h1>
               </div>
 
@@ -201,15 +250,21 @@ export const Home: React.FC = () => {
               <div className="flex items-center gap-4 sm:gap-5 mb-10 sm:mb-14">
                 <div className="w-[1px] h-10 sm:h-14 bg-primary/20"></div>
                 <div ref={heroSubtitleRef} style={{ position: 'relative' }} className="max-w-[240px] sm:max-w-md">
-                  <VariableProximity
-                    label="Not vendors. Your long-term technical partner for scale."
-                    className="text-sm sm:text-xl text-primary/60 font-medium tracking-tight"
-                    fromFontVariationSettings="'wght' 500"
-                    toFontVariationSettings="'wght' 700"
-                    containerRef={heroSubtitleRef}
-                    radius={120}
-                    falloff="linear"
-                  />
+                  {enableProximity ? (
+                    <Suspense fallback={<span className="text-sm sm:text-xl text-primary/60 font-medium tracking-tight">Not vendors. Your long-term technical partner for scale.</span>}>
+                      <VariableProximity
+                        label="Not vendors. Your long-term technical partner for scale."
+                        className="text-sm sm:text-xl text-primary/60 font-medium tracking-tight"
+                        fromFontVariationSettings="'wght' 500"
+                        toFontVariationSettings="'wght' 700"
+                        containerRef={heroSubtitleRef}
+                        radius={120}
+                        falloff="linear"
+                      />
+                    </Suspense>
+                  ) : (
+                    <span className="text-sm sm:text-xl text-primary/60 font-medium tracking-tight">Not vendors. Your long-term technical partner for scale.</span>
+                  )}
                 </div>
               </div>
             </div>
@@ -218,15 +273,21 @@ export const Home: React.FC = () => {
               <div className="max-w-2xl">
                 {/* Description with VariableProximity */}
                 <div ref={heroDescriptionRef} style={{ position: 'relative' }} className="mb-10 sm:mb-12">
-                  <VariableProximity
-                    label="We build brands and digital products for startups and enterprises — taking ownership from idea to launch and beyond."
-                    className="text-lg sm:text-2xl lg:text-3xl text-secondary font-light leading-relaxed text-balance"
-                    fromFontVariationSettings="'wght' 300"
-                    toFontVariationSettings="'wght' 500"
-                    containerRef={heroDescriptionRef}
-                    radius={140}
-                    falloff="linear"
-                  />
+                  {enableProximity ? (
+                    <Suspense fallback={<p className="text-lg sm:text-2xl lg:text-3xl text-secondary font-light leading-relaxed text-balance">We build brands and digital products for startups and enterprises — taking ownership from idea to launch and beyond.</p>}>
+                      <VariableProximity
+                        label="We build brands and digital products for startups and enterprises — taking ownership from idea to launch and beyond."
+                        className="text-lg sm:text-2xl lg:text-3xl text-secondary font-light leading-relaxed text-balance"
+                        fromFontVariationSettings="'wght' 300"
+                        toFontVariationSettings="'wght' 500"
+                        containerRef={heroDescriptionRef}
+                        radius={140}
+                        falloff="linear"
+                      />
+                    </Suspense>
+                  ) : (
+                    <p className="text-lg sm:text-2xl lg:text-3xl text-secondary font-light leading-relaxed text-balance">We build brands and digital products for startups and enterprises — taking ownership from idea to launch and beyond.</p>
+                  )}
                 </div>
                 
                 <div className="flex flex-col xs:flex-row gap-4">
@@ -262,15 +323,21 @@ export const Home: React.FC = () => {
             </div>
             <div className="lg:col-span-8">
               <div ref={partnershipTextRef} style={{ position: 'relative' }}>
-                <VariableProximity
-                  label="Fast-moving SaaS companies and modern brands choose Vantixio Studio as their in-house team alternative."
-                  className="text-xl sm:text-4xl lg:text-5xl font-light leading-snug text-primary text-balance lg:max-w-4xl"
-                  fromFontVariationSettings="'wght' 300"
-                  toFontVariationSettings="'wght' 500"
-                  containerRef={partnershipTextRef}
-                  radius={160}
-                  falloff="linear"
-                />
+                {enableProximity ? (
+                  <Suspense fallback={<p className="text-xl sm:text-4xl lg:text-5xl font-light leading-snug text-primary text-balance lg:max-w-4xl">Fast-moving SaaS companies and modern brands choose Vantixio Studio as their in-house team alternative.</p>}>
+                    <VariableProximity
+                      label="Fast-moving SaaS companies and modern brands choose Vantixio Studio as their in-house team alternative."
+                      className="text-xl sm:text-4xl lg:text-5xl font-light leading-snug text-primary text-balance lg:max-w-4xl"
+                      fromFontVariationSettings="'wght' 300"
+                      toFontVariationSettings="'wght' 500"
+                      containerRef={partnershipTextRef}
+                      radius={160}
+                      falloff="linear"
+                    />
+                  </Suspense>
+                ) : (
+                  <p className="text-xl sm:text-4xl lg:text-5xl font-light leading-snug text-primary text-balance lg:max-w-4xl">Fast-moving SaaS companies and modern brands choose Vantixio Studio as their in-house team alternative.</p>
+                )}
               </div>
             </div>
           </div>
